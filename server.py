@@ -8,15 +8,10 @@ app = Flask("Emotion Detector")
 def emo_detector():
     text_to_analyze = request.args.get('textToAnalyze')
 
-    response = emotion_detector(text_to_analyze)
-
-    if not text_to_analyze:
-        return "Please provide text using the 'textToAnalyze' query parameter.", 400
-
     result = emotion_detector(text_to_analyze)
 
     if result['dominant_emotion'] is None:
-        return "Emotion detection failed. Please try again later.", 500
+        return "Invalid text! Please try again!", 400
 
     result_lines = [f"{emotion}: {score}" for emotion, score in result.items()]
     return result_lines 
@@ -26,5 +21,4 @@ def render_index_page():
     return render_template('index.html') 
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=5000)
-    
+    app.run(host="localhost", port=5001)
